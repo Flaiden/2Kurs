@@ -1,0 +1,63 @@
+#include <iostream>
+
+const int arraySize = 100;
+
+// Функция для заполнения массива
+void fillArray(int arr[], int size) {
+    std::cout << "Введите числа от 1 до 9 (для завершения ввода введите 0):\n";
+    for (int i = 0; i < size; ++i) {
+        int num;
+        std::cin >> num;
+        if (num >= 1 && num <= 9) {
+            arr[i] = num;
+        } else if (num == 0) {
+            break;
+        } else {
+            std::cout << "Пожалуйста, введите число от 1 до 9.\n";
+            --i;  // Повторить попытку ввода
+        }
+    }
+}
+
+// Функция для выполнения операции сложения
+int addArrays(const int arr1[], const int arr2[], int size) {
+    int result = 0;
+    for (int i = 0; i < size; ++i) {
+        result += arr1[i] + arr2[i];
+    }
+    return result;
+}
+
+// Функция для выполнения операции вычитания
+int subtractArrays(const int arr1[], const int arr2[], int size) {
+    int result = 0;
+    for (int i = 0; i < size; ++i) {
+        result += arr1[i] - arr2[i];
+    }
+    return result;
+}
+
+int main() {
+    int array1[arraySize];
+    int array2[arraySize];
+
+    fillArray(array1, arraySize);
+    fillArray(array2, arraySize);
+
+    char operation;
+    std::cout << "Выберите операцию (+ для сложения, - для вычитания): ";
+    std::cin >> operation;
+
+    int result = 0;
+    if (operation == '+') {
+        result = addArrays(array1, array2, arraySize);
+        std::cout << "Результат сложения: " << result << std::endl;
+    } else if (operation == '-') {
+        result = subtractArrays(array1, array2, arraySize);
+        std::cout << "Результат вычитания: " << result << std::endl;
+    } else {
+        std::cout << "Неверная операция. Пожалуйста, выберите + или -.\n";
+    }
+
+    return 0;
+}
