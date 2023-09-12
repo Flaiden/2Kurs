@@ -9,30 +9,31 @@ double calculateInterest(double principal, double rate, int periods, int capital
 }
 
 int main() {
-    double principal;               // Сумма вклада
-    int duration;                  // Срок размещения (в месяцах)
-    double annualRate;             // Годовая процентная ставка
-    double taxRate;                // Налоговая ставка
-    int payoutFrequency;           // Периодичность выплат процентов (в месяцах)
-    int capitalizationFrequency;   // Капитализация процентов (в месяцах)
+    setlocale(LC_ALL, "Russian");
+    double Summ;               // Сумма вклада
+    int srok;                  // Срок размещения (в месяцах)
+    double Procentstav;             // Годовая процентная ставка
+    double nalog;                // Налоговая ставка
+    int payperiod;           // Периодичность выплат процентов (в месяцах)
+    int capitalprocent;   // Капитализация процентов (в месяцах)
 
     cout << "Введите сумму вклада: ";
-    cin >> principal;
+    cin >> Summ;
 
     cout << "Введите срок размещения (в месяцах): ";
-    cin >> duration;
+    cin >> srok;
 
     cout << "Введите годовую процентную ставку: ";
-    cin >> annualRate;
+    cin >> Procentstav;
 
     cout << "Введите налоговую ставку: ";
-    cin >> taxRate;
+    cin >> nalog;
 
     cout << "Введите периодичность выплат процентов (в месяцах): ";
-    cin >> payoutFrequency;
+    cin >> payperiod;
 
     cout << "Введите капитализацию процентов (в месяцах): ";
-    cin >> capitalizationFrequency;
+    cin >> capitalprocent;
 
     vector<double> deposits;      // Список пополнений
     vector<double> withdrawals;   // Список частичных снятий
@@ -56,21 +57,21 @@ int main() {
     // Расчет начисленных процентов
     double totalInterest = 0;
     int totalMonths = 0;
-    for (int month = 0; month < duration; ++month) {
-        if (month % payoutFrequency == 0) {
-            double monthlyInterest = calculateInterest(principal, annualRate / 12, 1, capitalizationFrequency);
-            double taxableInterest = monthlyInterest - (monthlyInterest * taxRate / 100);
+    for (int month = 0; month < srok; ++month) {
+        if (month % payperiod == 0) {
+            double monthlyInterest = calculateInterest(Summ, Procentstav / 12, 1, capitalprocent);
+            double taxableInterest = monthlyInterest - (monthlyInterest * nalog / 100);
             totalInterest += taxableInterest;
-            principal += taxableInterest;
+            Summ += taxableInterest;
 
             totalMonths++;
 
             if (!deposits.empty() && deposits.front() <= month + 1) {
-                principal += deposits.front();
+                Summ += deposits.front();
                 deposits.erase(deposits.begin());
             }
             if (!withdrawals.empty() && withdrawals.front() <= month + 1) {
-                principal -= withdrawals.front();
+                Summ -= withdrawals.front();
                 withdrawals.erase(withdrawals.begin());
             }
         }
@@ -78,9 +79,9 @@ int main() {
 
     // Вывод результатов
     cout << "Начисленные проценты: " << totalInterest << endl;
-    double totalTax = totalInterest - (totalInterest * (1 - pow(1 - taxRate / 100, totalMonths)));
+    double totalTax = totalInterest - (totalInterest * (1 - pow(1 - nalog / 100, totalMonths)));
     cout << "Сумма налога: " << totalTax << endl;
-    cout << "Сумма на вкладе к концу срока: " << principal << endl;
+    cout << "Сумма на вкладе к концу срока: " << Summ << endl;
 
     return 0;
 }
