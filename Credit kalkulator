@@ -4,17 +4,16 @@
 using namespace std;
 
 int main() {
-    // Ввод данных
-    double principal;  // Общая сумма кредита
-    double rate;       // Процентная ставка (годовая)
+    double summ;  // Общая сумма кредита
+    double procent;       // Процентная ставка (годовая)
     int months;        // Срок кредита в месяцах
     int choice;        // Выбор типа кредита (1 - аннуитетный, 2 - дифференцированный)
 
     cout << "Введите общую сумму кредита: ";
-    cin >> principal;
+    cin >> summ;
 
     cout << "Введите процентную ставку (годовая): ";
-    cin >> rate;
+    cin >> procent;
 
     cout << "Введите срок кредита в месяцах: ";
     cin >> months;
@@ -29,13 +28,13 @@ int main() {
         double monthlyRate = (rate / 100) / 12;
 
         // Расчет ежемесячного платежа
-        double monthlyPayment = principal * (monthlyRate * pow(1 + monthlyRate, months)) / (pow(1 + monthlyRate, months) - 1);
+        double monthlyPayment = summ * (monthlyRate * pow(1 + monthlyRate, months)) / (pow(1 + monthlyRate, months) - 1);
 
         // Расчет общей суммы выплаты кредита
         double totalPayment = monthlyPayment * months;
 
         // Расчет переплаты по кредиту
-        double totalInterest = totalPayment - principal;
+        double totalInterest = totalPayment - summ;
 
         cout << "Ежемесячный платеж: " << monthlyPayment << endl;
         cout << "Переплата по кредиту: " << totalInterest << endl;
@@ -47,22 +46,22 @@ int main() {
         double monthlyRate = (rate / 100) / 12;
 
         // Расчет ежемесячного платежа для каждого месяца
-        double monthlyPayment = principal / months;
+        double monthlyPayment = summ / months;
 
         double totalInterest = 0.0;
 
         cout << "Ежемесячные платежи:" << endl;
         for (int i = 1; i <= months; ++i) {
-            double interestPayment = principal * monthlyRate;
+            double interestPayment = summ * monthlyRate;
             double principalPayment = monthlyPayment - interestPayment;
-            principal -= principalPayment;
+            summ -= principalPayment;
             totalInterest += interestPayment;
 
-            cout << "Месяц " << i << ": Платеж: " << monthlyPayment << ", Проценты: " << interestPayment << ", Остаток: " << principal << endl;
+            cout << "Месяц " << i << ": Платеж: " << monthlyPayment << ", Проценты: " << interestPayment << ", Остаток: " << summ << endl;
         }
 
         // Общая сумма выплаты кредита
-        double totalPayment = principal + totalInterest;
+        double totalPayment = summl + totalInterest;
 
         cout << "Общая сумма выплаты кредита: " << totalPayment << endl;
         cout << "Переплата по кредиту: " << totalInterest << endl;
