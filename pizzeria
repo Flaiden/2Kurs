@@ -1,0 +1,143 @@
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+class Pizza {
+public:
+    int id;
+    double rating;
+    string name;
+    Pizza(int id, double rating, string name) {
+
+        this->id = id;
+        this->rating = rating;
+        this->name = name;
+
+
+    }
+
+};
+class menu {
+public:
+    int id;
+    int pizz_id;
+    string pizza_name;
+    double price;
+    menu(int id, int pizz_id, string pizza_name, double price) {
+
+        this->id = id;
+        this->pizz_id = pizz_id;
+        this->pizza_name = pizza_name;
+        this->price = price;
+    }
+};
+
+class person {
+public:
+    int id;
+    string firstname;
+    string lastname;
+    bool gender;
+    person(int id, string firstname, string lastname, bool gender) {
+
+        this->id = id;
+        this->firstname = firstname;
+        this->lastname = lastname;
+        this->gender = gender;
+    }
+
+};
+
+class person_visit {
+public:
+    int id;
+    int person_id;
+    int pizz_id;
+    bool date;
+    person_visit(int id, int person_id, int pizz_id, bool date) {
+
+        this->id = id;
+        this->person_id = person_id;
+        this->pizz_id = pizz_id;
+        this->date = date;
+
+
+    }
+};
+
+class person_order {
+public:
+    int id;
+    int person_id;
+    int menu_id;
+    bool order_date;
+    person_order(int id, int person_id, int menu_id, bool order_date) {
+
+        this->id = id;
+        this->person_id = person_id;
+        this->menu_id = menu_id;
+        this->order_date = order_date;
+
+    }
+};
+
+int main() {
+    setlocale(LC_ALL, "RUS");
+    // Создаем массив объектов Pizza, menu, person, person_visit и person_order
+    Pizza* pizzas[4];
+    pizzas[0] = new Pizza(1, 3, "Dodo");
+    pizzas[1] = new Pizza(2, 4, "Mimo");
+    pizzas[2] = new Pizza(3, 5, "lui");
+    pizzas[3] = new Pizza(4, 6, "York");
+
+    menu* menus[4];
+    menus[0] = new menu(54, 13, "margarita", 20);
+    menus[1] = new menu(23, 14, "peperoni", 30);
+    menus[2] = new menu(65, 15, "sorok sirov", 40);
+    menus[3] = new menu(76, 16, "Ghirobaz", 50);
+
+    person* persons[4];
+    persons[0] = new person(12, "Gena", "Bukin", true);
+    persons[1] = new person(19, "Viktor", "Choy", true);
+    persons[2] = new person(87, "Yuriy", "Hoy", true);
+    persons[3] = new person(51, "Merlin", "Monro", false);
+
+    person_visit* visits[4];
+    visits[0] = new person_visit(99, 12, 1, true);
+    visits[1] = new person_visit(68, 19, 2, true);
+    visits[2] = new person_visit(79, 87, 3, true);
+    visits[3] = new person_visit(85, 51, 4, true);
+
+    person_order* orders[4];
+    orders[0] = new person_order(94, 12, 54, true);
+    orders[1] = new person_order(24, 19, 23, true);
+    orders[2] = new person_order(29, 87, 65, true);
+    orders[3] = new person_order(621, 51, 76, true);
+
+    // Пользователь выбирает пиццерию (здесь предполагается, что выбор происходит по индексу)
+    int chosenPizzaIndex;
+    cout << "Выберите пиццерию (0-3): ";
+    cin >> chosenPizzaIndex;
+
+    // Выводим информацию о заказах для выбранной пиццерии
+    cout << "Информация о заказах для пиццерии " << pizzas[chosenPizzaIndex]->name << ":" << endl;
+    for (int i = 0; i < 4; i++) {
+        if (visits[i]->pizz_id == chosenPizzaIndex + 1) {
+            cout << "Заказ №" << orders[i]->id << " - " << persons[i]->firstname << " " << persons[i]->lastname;
+            cout << " заказал(а) " << menus[i]->pizza_name << " за " << menus[i]->price << " рублей";
+            cout << " В " << orders[i]->order_date << endl;
+        }
+    }
+
+    // Освобождаем выделенную память
+    for (int i = 0; i < 4; i++) {
+        delete pizzas[i];
+        delete menus[i];
+        delete persons[i];
+        delete visits[i];
+        delete orders[i];
+    }
+
+    return 0;
+};
