@@ -1,0 +1,78 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+// Функция для поиска числа в двумерном массиве методом O(n^2)
+bool searchOn2(std::vector<std::vector<int>>& matrix, int target) {
+    for (size_t i = 0; i < matrix.size(); ++i) {
+        for (size_t j = 0; j < matrix[i].size(); ++j) {
+            if (matrix[i][j] == target) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// Функция для поиска числа в двумерном массиве методом O(log n)
+bool searchLogOn(std::vector<std::vector<int>>& matrix, int target) {
+    for (size_t i = 0; i < matrix.size(); ++i) {
+        std::vector<int>& row = matrix[i];
+        if (std::binary_search(row.begin(), row.end(), target)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Функция для поиска числа в двумерном массиве методом O(n)
+bool searchOnPlusN(std::vector<std::vector<int>>& matrix, int target) {
+    int rows = matrix.size();
+    int cols = matrix[0].size();
+    int row = 0;
+    int col = cols - 1;
+
+    while (row < rows && col >= 0) {
+        if (matrix[row][col] == target) {
+            return true;
+        } else if (matrix[row][col] > target) {
+            col--;
+        } else {
+            row++;
+        }
+    }
+    return false;
+}
+
+int main() {
+    std::vector<std::vector<int>> matrix = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
+
+    int target;
+    std::cout<< "Введите искомое число";
+    std::cin>> target;
+
+    if (searchOn2(matrix, target)) {
+        std::cout << "Метод O(n^2): Число найдено." << std::endl;
+    } else {
+        std::cout << "Метод O(n^2): Число не найдено." << std::endl;
+    }
+
+    if (searchLogOn(matrix, target)) {
+        std::cout << "Метод O(log n): Число найдено." << std::endl;
+    } else {
+        std::cout << "Метод O(log n): Число не найдено." << std::endl;
+    }
+
+    if (searchOnPlusN(matrix, target)) {
+        std::cout << "Метод O(n): Число найдено." << std::endl;
+    } else {
+        std::cout << "Метод O(n): Число не найдено." << std::endl;
+    }
+
+    return 0;
+}
+
