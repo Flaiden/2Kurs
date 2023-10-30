@@ -1,46 +1,48 @@
 #include <iostream>
 
 int main() {
+    setlocale(LC_ALL, "");
     const char* source = "Пример строки для копирования";
-    char destination[100]; 
+    char destination[100] = {0};
 
     int i = 0;
     while (source[i] != '\0') {
         destination[i] = source[i];
+        std::cout << "Скопирован символ '" << source[i] << "' из индекса " << i << std::endl;
         i++;
     }
-
-    destination[i] = '\0'; 
 
     std::cout << "Скопированная строка: " << destination << std::endl;
 
     return 0;
 }
 
-
 // Соединение
 #include <iostream>
 
 void connect(char dest[], const char dobav[]) {
-    int dest_len = 0;
-    while (dest[dest_len] != '\0') {
-        dest_len++;
-    }
+int dest_len = 0;
+while (dest[dest_len] != '\0') {
+dest_len++;
+}
 
-    int src_len = 0;
-    while (dobav[src_len] != '\0') {
-        dest[dest_len + src_len] = dobav[src_len];
-        src_len++;
-    }
-    dest[dest_len + src_len] = '\0';
+
+int src_len = 0;
+while (dobav[src_len] != '\0') {
+    dest[dest_len + src_len] = dobav[src_len];
+    src_len++;
+}
+dest[dest_len + src_len] = '\0';
+
+std::cout << "Действие произведено в индексе: " << dest_len << std::endl;
 }
 
 int main() {
-    char str1[50] = "Хочу ";
-    const char str2[] = "5!";
-    connect(str1, str2);
-    std::cout << str1 << std::endl;
-    return 0;
+char str1[50] = "Хочу ";
+const char str2[] = "5!";
+connect(str1, str2);
+std::cout << str1 << std::endl;
+return 0;
 }
 
 /////////////////////////////////////////////////
@@ -63,7 +65,7 @@ int main() {
     int position = findCharacter(text, symbol);
 
     if (position != -1) {
-        std::cout << "Символ '" << symbol << "' найден на позиции " << position << std::endl;
+        std::cout << "Символ '" << symbol << "' найден на позиции " << position << ", индекс: " << position << std::endl;
     } else {
         std::cout << "Символ '" << symbol << "' не найден в строке." << std::endl;
     }
@@ -71,41 +73,48 @@ int main() {
     return 0;
 }
 
+
+
+
+
 /////////
 
 ////////Сравнение
 
 #include <iostream>
 
+const char* my_strstr(const char* stroka1, const char* stroka2) {
+    if (!stroka1 || !stroka2) {
+        return stroka1;  
+    }
 
-bool compareStrings(const char* str1, const char* str2) {
-    
-    while (*str1 != '\0' && *str2 != '\0') {
-        
-        if (*str1 != *str2) {
-            return false;
+    for (int i = 0; stroka1[i] != '\0'; i++) {
+        std::cout << "Сравниваем символы в индексах " << i << " и " << 0 << std::endl;
+        int j = 0;
+        while (stroka2[j] != '\0' && stroka1[i + j] == stroka2[j]) {
+            std::cout << "Символы равны в индексах " << i+j << " и " << j << std::endl;
+            j++;
         }
-        str1++; 
-        str2++; 
+
+        if (stroka2[j] == '\0') {
+            return &stroka1[i];
+        }
     }
 
-  
-    if (*str1 != '\0' || *str2 != '\0') {
-        return false;
-    }
-
-    
-    return true;
+    return stroka1;  
 }
 
 int main() {
-    const char* str1 = "Пример строки";
-    const char* str2 = "Пример строки";
+    setlocale(LC_ALL, "Rus");
+    const char* stroka1 = "это пример текста";
+    const char* stroka2 = "пример";
 
-    if (compareStrings(str1, str2)) {
-        std::cout << "Строки идентичны." << std::endl;
+    const char* result = my_strstr(stroka1, stroka2);
+
+    if (result != stroka1) {
+        std::cout << "подстрока найдена в индексе: " << (result - stroka1) << std::endl;
     } else {
-        std::cout << "Строки различны." << std::endl;
+        std::cout << "подстрока не найдена" << std::endl;
     }
 
     return 0;
@@ -117,22 +126,27 @@ int main() {
 #include <locale>
 
 int wstroklong(const wchar_t* str) {
-    int length = 0;
+int length = 0;
+int index = 0; // добавляем переменную для индекса
 
-    while (str[length] != L'\0') {
-        length++;
-    }
 
-    return length;
+while (str[length] != L'\0') {
+    std::wcout << L"Индекс: " << index << std::endl; // выводим индекс
+    length++;
+    index++; // увеличиваем индекс на 1
+}
+
+return length;
 }
 
 int main() {
-    const wchar_t* myString = L"Привет";
+const wchar_t* myString = L"Привет";
 
-    int length = wstroklong(myString);
-    std::wcout << L"Длина строки: " << length << std::endl;
 
-    return 0;
+int length = wstroklong(myString);
+std::wcout << L"Длина строки: " << length << std::endl;
+
+return 0;
 }
 
 /////////////////
