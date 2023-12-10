@@ -1,0 +1,84 @@
+#include <iostream>
+#include <unordered_map>
+#define MAX_SIZE 20
+
+using namespace std;
+
+
+int get_max_ind(unordered_map<char, int> data){
+    int sum = 0;
+    for(auto it = ++data.begin(); it != data.end(); it++) sum += it->second;
+    return MAX_SIZE - sum;
+    
+}
+
+
+void add_symbol(string &resault, unordered_map<char, int> data){
+    int max_ind;
+    max_ind = get_max_ind(data);
+    if(max_ind == 1) return;
+    
+    for(auto it = data.begin(); it != data.end(); it++){
+        if(it->second > MAX_SIZE) break;
+        for(size_t i = 0; i < it->second; i++){
+            resault += it->first;
+        }
+    }
+}
+
+
+void add_ind(unordered_map<char, int> &data){
+    int max_ind;
+    max_ind = get_max_ind(data);
+    if(max_ind == 1) return;
+    data.begin()->second++;
+    
+    for(auto it = data.begin(); it != data.end(); it++){
+        if(it->second == max_ind){
+            it->second = 1;
+            ((++it)->second)++;
+            
+        }
+    };
+}
+
+
+int main(){
+    int quantity_folder;
+    int quantity_file;
+    string folder_symbols;
+    string file_symbols;
+   
+    cout << "Введите символы для папок:\n>>"; cin >> folder_symbols;
+    cout << "Введите количество папок:\n>>"; cin >> quantity_folder;
+    cout << "Введите символы для файлов:\n>>"; cin >> file_symbols;
+    cout << "Введите количество файлов:\n>>"; cin >> quantity_file;
+    
+    string arr_folder[quantity_folder];
+    string arr_file[quantity_file];
+    
+    unordered_map<char, int> folder_data;
+    for(char sym: folder_symbols) folder_data[sym] = 1;
+    
+    unordered_map<char, int> file_data;
+    for(char sym: file_symbols) file_data[sym] = 1;
+    
+    for (int i = 0; i != quantity_folder; i++){
+        string folder_resault;
+        add_symbol(folder_resault, folder_data);
+        add_ind(folder_data);
+        arr_folder[i] = folder_resault;
+        cout << "created folder: " << arr_folder[i] << '\n';
+        
+        for (int j = 0; j != quantity_file; j++){
+            string file_resault;
+            add_symbol(file_resault, file_data);
+            add_ind(file_data);
+            arr_file[j] = file_resault;
+            
+            cout << "in folder " << arr_folder[i] << " created file: " << arr_file[j] << '\n';
+        }
+    }
+    
+    return 0;
+}
